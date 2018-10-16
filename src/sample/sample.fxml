@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <Label fx:id="title_label" layoutX="50.0" layoutY="14.0" prefHeight="51.0" prefWidth="301.0" text="Stock managment">
+         <font>
+            <Font name="System Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label fx:id="stuff_label" layoutX="47.0" layoutY="80.0" prefHeight="30.0" prefWidth="132.0" text="Name of stuff:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="stuff_input" layoutX="190.0" layoutY="82.0" prefHeight="25.0" prefWidth="152.0" />
+      <Label fx:id="person_label" layoutX="52.0" layoutY="119.0" prefHeight="30.0" prefWidth="123.0" text="Person name:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="person_input" layoutX="190.0" layoutY="121.0" prefHeight="25.0" prefWidth="152.0" />
+      <Label fx:id="count_label" layoutX="113.0" layoutY="156.0" prefHeight="30.0" prefWidth="62.0" text="Count:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="count_input" layoutX="190.0" layoutY="158.0" prefHeight="25.0" prefWidth="152.0" />
+      <Label fx:id="country_label" layoutX="41.0" layoutY="193.0" prefHeight="30.0" prefWidth="134.0" text="Origin country:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="country_input" layoutX="190.0" layoutY="196.0" prefHeight="25.0" prefWidth="152.0" />
+      <Button fx:id="insert_btn" layoutX="52.0" layoutY="255.0" mnemonicParsing="false" onAction="#insertStuff" prefHeight="44.0" prefWidth="133.0" text="Insert">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="carry_btn" layoutX="219.0" layoutY="255.0" mnemonicParsing="false" onAction="#carryStuff" prefHeight="44.0" prefWidth="133.0" text="Carry">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Button>
+      <Label fx:id="result_label" layoutX="53.0" layoutY="306.0" prefHeight="30.0" prefWidth="299.0" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
