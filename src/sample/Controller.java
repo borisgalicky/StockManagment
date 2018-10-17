@@ -1,12 +1,14 @@
 package sample;
 
 import Connectivity.DatabaseConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -25,6 +27,18 @@ public class Controller {
     public TextField country_input;
     @FXML
     public Label result_label;
+    @FXML
+    public TableView<TableModel> table;
+    @FXML
+    public TableColumn<TableModel,String> name_column;
+    @FXML
+    public TableColumn<TableModel,String> person_column;
+    @FXML
+    public TableColumn<TableModel,Integer> count_column;
+    @FXML
+    public TableColumn<TableModel,String> country_column;
+
+    ObservableList<TableModel> list = FXCollections.observableArrayList();
 
     public void initialize(){
         try{
@@ -32,24 +46,35 @@ public class Controller {
             Connection connection = dc.getConnection();
             String query = "SELECT * FROM customers";
             Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
-            result_label.setAlignment(Pos.CENTER);
-            result_label.setStyle("-fx-text-fill: #000000");
-            result_label.setText("No content to display!");
-        }
+            ResultSet rs = statement.executeQuery(query);
+            list.clear();
+            while(rs.next()){
+                String name = rs.getString("Name");
+                String person = rs.getString("Person");
+                int count = rs.getInt("Count");
+                String country = rs.getString("Country");
+                list.add(new TableModel(name,person,count,country));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        name_column.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        person_column.setCellValueFactory(new PropertyValueFactory<>("Person"));
+        count_column.setCellValueFactory(new PropertyValueFactory<>("Count"));
+        country_column.setCellValueFactory(new PropertyValueFactory<>("Country"));
+        table.setItems(list);
     }
 
     public void insertStuff() throws SQLException {
         int err = 0;
         DatabaseConnection dc = new DatabaseConnection();
         Connection connection = dc.getConnection();
-        String stuff = stuff_input.getText();
+        String name = stuff_input.getText();
         String person = person_input.getText();
-        String count_str = count_input.getText();
+        String count = count_input.getText();
         String country = country_input.getText();
-        String[] inputList = {stuff,person,count_str,country};
+        String[] inputList = {name,person,count,country};
         for(String item : inputList){
             if(item.equals("")){
                 err++;
@@ -61,12 +86,12 @@ public class Controller {
             result_label.setText("Fill all inputs!");
         } else {
             try{
-                int count_int = Integer.parseInt(count_str);
+                int count_int = Integer.parseInt(count);
                 result_label.setAlignment(Pos.CENTER);
                 result_label.setStyle("-fx-text-fill: #4bc63d");
                 result_label.setText("Successfully inserted!");
                 String query = "INSERT INTO `customers`(Name,Person,Count,Country)" +
-                        " VALUES ('"+stuff+"','"+person+"','"+count_int+"','"+country+"')";
+                        " VALUES ('"+name+"','"+person+"','"+count_int+"','"+country+"')";
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(query);
                 stuff_input.setText("");person_input.setText("");
@@ -79,6 +104,7 @@ public class Controller {
                 e.printStackTrace();
             }
         }
+        initialize();
     }
 
     public void carryStuff(){

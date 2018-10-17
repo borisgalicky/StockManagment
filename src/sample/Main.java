@@ -13,11 +13,9 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Stack managment");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 400, 335));
+        primaryStage.setScene(new Scene(root, 775, 390));
         primaryStage.show();
     }
-
-
     public static void main(String[] args) {
         launch(args);
     }

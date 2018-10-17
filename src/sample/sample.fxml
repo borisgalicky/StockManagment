@@ -2,54 +2,73 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="775.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Label fx:id="title_label" layoutX="50.0" layoutY="14.0" prefHeight="51.0" prefWidth="301.0" text="Stock managment">
+      <Label fx:id="title_label" layoutX="238.0" layoutY="14.0" prefHeight="51.0" prefWidth="301.0" text="Stock managment">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
       </Label>
-      <Label fx:id="stuff_label" layoutX="47.0" layoutY="80.0" prefHeight="30.0" prefWidth="132.0" text="Name of stuff:">
+      <Label fx:id="stuff_label" layoutX="47.0" layoutY="120.0" prefHeight="30.0" prefWidth="132.0" text="Name of stuff:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="stuff_input" layoutX="190.0" layoutY="82.0" prefHeight="25.0" prefWidth="152.0" />
-      <Label fx:id="person_label" layoutX="52.0" layoutY="119.0" prefHeight="30.0" prefWidth="123.0" text="Person name:">
+      <TextField fx:id="stuff_input" layoutX="190.0" layoutY="122.0" prefHeight="25.0" prefWidth="152.0" />
+      <Label fx:id="person_label" layoutX="52.0" layoutY="159.0" prefHeight="30.0" prefWidth="123.0" text="Person name:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="person_input" layoutX="190.0" layoutY="121.0" prefHeight="25.0" prefWidth="152.0" />
-      <Label fx:id="count_label" layoutX="113.0" layoutY="156.0" prefHeight="30.0" prefWidth="62.0" text="Count:">
+      <TextField fx:id="person_input" layoutX="190.0" layoutY="161.0" prefHeight="25.0" prefWidth="152.0" />
+      <Label fx:id="count_label" layoutX="113.0" layoutY="196.0" prefHeight="30.0" prefWidth="62.0" text="Count:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="count_input" layoutX="190.0" layoutY="158.0" prefHeight="25.0" prefWidth="152.0" />
-      <Label fx:id="country_label" layoutX="41.0" layoutY="193.0" prefHeight="30.0" prefWidth="134.0" text="Origin country:">
+      <TextField fx:id="count_input" layoutX="190.0" layoutY="198.0" prefHeight="25.0" prefWidth="152.0" />
+      <Label fx:id="country_label" layoutX="41.0" layoutY="233.0" prefHeight="30.0" prefWidth="134.0" text="Origin country:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="country_input" layoutX="190.0" layoutY="196.0" prefHeight="25.0" prefWidth="152.0" />
-      <Button fx:id="insert_btn" layoutX="52.0" layoutY="255.0" mnemonicParsing="false" onAction="#insertStuff" prefHeight="44.0" prefWidth="133.0" text="Insert">
+      <TextField fx:id="country_input" layoutX="190.0" layoutY="236.0" prefHeight="25.0" prefWidth="152.0" />
+      <Button fx:id="insert_btn" focusTraversable="false" layoutX="47.0" layoutY="295.0" mnemonicParsing="false" onAction="#insertStuff" prefHeight="44.0" prefWidth="133.0" text="Insert">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="carry_btn" layoutX="219.0" layoutY="255.0" mnemonicParsing="false" onAction="#carryStuff" prefHeight="44.0" prefWidth="133.0" text="Carry">
+      <Button fx:id="carry_btn" focusTraversable="false" layoutX="209.0" layoutY="295.0" mnemonicParsing="false" onAction="#carryStuff" prefHeight="44.0" prefWidth="133.0" text="Carry">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <Label fx:id="result_label" layoutX="53.0" layoutY="306.0" prefHeight="30.0" prefWidth="299.0" textAlignment="CENTER">
+      <Label fx:id="result_label" focusTraversable="false" layoutX="52.0" layoutY="353.0" prefHeight="25.0" prefWidth="299.0" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
+         </font>
+      </Label>
+      <TableView id="table" fx:id="table" focusTraversable="false" layoutX="388.0" layoutY="120.0" prefHeight="256.0" prefWidth="370.0">
+        <columns>
+          <TableColumn id="name_column" fx:id="name_column" editable="false" prefWidth="108.0" resizable="false" text="Name" />
+          <TableColumn id="person_column" fx:id="person_column" editable="false" prefWidth="101.0" resizable="false" text="Person" />
+            <TableColumn id="count_column" fx:id="count_column" editable="false" prefWidth="55.0" resizable="false" text="Count" />
+            <TableColumn id="country_column" fx:id="country_column" editable="false" prefWidth="104.0" resizable="false" text="Country" />
+        </columns>
+      </TableView>
+      <Label layoutX="489.0" layoutY="74.0" prefHeight="32.0" prefWidth="164.0" text="Available items">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
+      <Label layoutX="76.0" layoutY="74.0" prefHeight="32.0" prefWidth="229.0" text="Insertion/Withdrawal">
+         <font>
+            <Font name="System Bold" size="22.0" />
          </font>
       </Label>
    </children>
