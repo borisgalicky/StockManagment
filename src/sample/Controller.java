@@ -184,7 +184,7 @@ public class Controller {
                     //result_label.setText("");
                     rs1.close();
                     ResultSet rs2 = statement.executeQuery(query2);
-                    rs2.next();
+                    rs2.next();//mám v pláne spraviť cyklus while(rs2.next()) ktorý vyrieši nižšie popísaný problém
                     if(rs2.getString("Person").equals(person)){//rs2.getString(columnLabel:"Person") sa rovná hodnote Boris, nie Martin
                         //result_label.setText("");
                         rs2.close();
