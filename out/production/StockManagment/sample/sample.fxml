@@ -10,7 +10,7 @@
 
 <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="775.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Label fx:id="title_label" layoutX="238.0" layoutY="14.0" prefHeight="51.0" prefWidth="301.0" text="Stock managment">
+      <Label fx:id="title_label" layoutX="238.0" layoutY="15.0" prefHeight="44.0" prefWidth="301.0" text="Stock managment">
          <font>
             <Font name="System Bold" size="35.0" />
          </font>
@@ -49,7 +49,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Button>
-      <Label fx:id="result_label" focusTraversable="false" layoutX="52.0" layoutY="353.0" prefHeight="25.0" prefWidth="299.0" textAlignment="CENTER">
+      <Label fx:id="result_label" focusTraversable="false" layoutX="9.0" layoutY="353.0" prefHeight="30.0" prefWidth="370.0" textAlignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>
@@ -57,7 +57,7 @@
       <TableView id="table" fx:id="table" focusTraversable="false" layoutX="388.0" layoutY="120.0" prefHeight="256.0" prefWidth="370.0">
         <columns>
           <TableColumn id="name_column" fx:id="name_column" editable="false" prefWidth="108.0" resizable="false" text="Name" />
-          <TableColumn id="person_column" fx:id="person_column" editable="false" prefWidth="101.0" resizable="false" text="Person" />
+          <TableColumn id="person_column" fx:id="person_column" editable="false" prefWidth="101.0" resizable="false" text="Inserted by" />
             <TableColumn id="count_column" fx:id="count_column" editable="false" prefWidth="55.0" resizable="false" text="Count" />
             <TableColumn id="country_column" fx:id="country_column" editable="false" prefWidth="104.0" resizable="false" text="Country" />
         </columns>
