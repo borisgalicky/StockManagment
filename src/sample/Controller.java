@@ -38,7 +38,7 @@ public class Controller {
     @FXML
     public TableColumn<TableModel,String> country_column;
 
-    ObservableList<TableModel> list = FXCollections.observableArrayList();
+    private ObservableList<TableModel> list = FXCollections.observableArrayList();
     private int count_int;
 
     public void initialize(){
@@ -94,6 +94,7 @@ public class Controller {
                 result_label.setAlignment(Pos.CENTER);
                 result_label.setStyle("-fx-text-fill: #ff0004");
                 result_label.setText("Count must be a number!");
+                count_input.requestFocus();
                 return;
             }
             String insert_query = "INSERT INTO customers (Name,Person,Count,Country) VALUES ('"+name+"','"+person+"','"+count_int+"','"+country+"')";
@@ -108,6 +109,7 @@ public class Controller {
                 result_label.setText("Successfully inserted!");
                 stuff_input.setText("");person_input.setText("");
                 count_input.setText("");country_input.setText("");
+                stuff_input.requestFocus();
                 rs_sel.close();
             } else {
                 statement.executeUpdate(insert_query);
@@ -116,6 +118,7 @@ public class Controller {
                 result_label.setText("Successfully inserted!");
                 stuff_input.setText("");person_input.setText("");
                 count_input.setText("");country_input.setText("");
+                stuff_input.requestFocus();
             }
         }
         initialize();
@@ -140,6 +143,7 @@ public class Controller {
             result_label.setAlignment(Pos.CENTER);
             result_label.setStyle("-fx-text-fill: #ff0004");
             result_label.setText("Fill all inputs!");
+            stuff_input.requestFocus();
         } else {
             try{
                 count_int = Integer.parseInt(count_str);
@@ -147,6 +151,7 @@ public class Controller {
                 result_label.setAlignment(Pos.CENTER);
                 result_label.setStyle("-fx-text-fill: #ff0004");
                 result_label.setText("Count must be a number!");
+                count_input.requestFocus();
                 return;
             }
             String query = "SELECT Count,ID FROM customers WHERE name like '"+name+"'" +
@@ -159,6 +164,7 @@ public class Controller {
                     result_label.setAlignment(Pos.CENTER);
                     result_label.setStyle("-fx-text-fill: #ff0004");
                     result_label.setText("Insufficient goods!");
+                    count_input.requestFocus();
                     return;
                 } else if (count_int==count){
                     statement.executeUpdate("DELETE FROM customers WHERE ID like '"+id+"'");
@@ -167,6 +173,7 @@ public class Controller {
                     result_label.setText("Successfully carried!");
                     stuff_input.setText("");person_input.setText("");
                     count_input.setText("");country_input.setText("");
+                    stuff_input.requestFocus();
                 } else {
                     rs.close();
                     int newCount = count-count_int;
@@ -176,6 +183,7 @@ public class Controller {
                     result_label.setText("Successfully carried!");
                     stuff_input.setText("");person_input.setText("");
                     count_input.setText("");country_input.setText("");
+                    stuff_input.requestFocus();
                 }
             } else {
                 result_label.setAlignment(Pos.CENTER);
