@@ -7,10 +7,15 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import javax.print.DocFlavor;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class Controller {
     @FXML
@@ -66,14 +71,18 @@ public class Controller {
         table.setItems(list);
     }
 
-    public void insertStuff() throws SQLException {
+    int count_int;
+    public void insertStuff() throws Exception {
         int err = 0;
+
         DatabaseConnection dc = new DatabaseConnection();
         Connection connection = dc.getConnection();
+        Statement statement = connection.createStatement();
         String name = stuff_input.getText();
         String person = person_input.getText();
         String count = count_input.getText();
         String country = country_input.getText();
+
         String[] inputList = {name,person,count,country};
         for(String item : inputList){
             if(item.equals("")){
@@ -86,74 +95,40 @@ public class Controller {
             result_label.setText("Fill all inputs!");
         } else {
             try{
-                int count_int = Integer.parseInt(count);
-                Statement statement = connection.createStatement();
-                String query = "INSERT INTO customers(Name,Person,Count,Country)" +
-                        " VALUES ('"+name+"','"+person+"','"+count_int+"','"+country+"')";
-                String query1 = "SELECT Name FROM customers where Name like '"+name+"'";
-                String query2 = "SELECT Person FROM customers where Name like '"+name+"'";
-                String query3 = "SELECT Country FROM customers where Name like '"+name+"'";
-                String query4 = "SELECT Count FROM customers where Name like '"+name+"'";
-
-                ResultSet rs1 = statement.executeQuery(query1);
-                if(rs1.next()){
-                    rs1.close();
-                    ResultSet rs2 = statement.executeQuery(query2);
-                    rs2.next();
-                    if(rs2.getString("Person").equals(person)){
-                        rs2.close();
-                        ResultSet rs3 = statement.executeQuery(query3);
-                        rs3.next();
-                        if(rs3.getString("Country").equals(country)){
-                            rs3.close();
-                            ResultSet rs4 = statement.executeQuery(query4);
-                            rs4.next();
-                            int new_count = rs4.getInt("Count")+count_int;
-                            String up_query = "UPDATE customers SET Count = '"+new_count+"'" +
-                                    " WHERE customers.Name like '"+name+"'";
-                            statement.executeUpdate(up_query);
-                            result_label.setAlignment(Pos.CENTER);
-                            result_label.setStyle("-fx-text-fill: #4bc63d");
-                            result_label.setText("Successfully carried!");
-                            stuff_input.setText("");person_input.setText("");
-                            count_input.setText("");country_input.setText("");
-                            rs4.close();
-                        } else {
-                            statement.executeUpdate(query);
-                            result_label.setAlignment(Pos.CENTER);
-                            result_label.setStyle("-fx-text-fill: #4bc63d");
-                            result_label.setText("Successfully inserted!");
-                            stuff_input.setText("");person_input.setText("");
-                            count_input.setText("");country_input.setText("");
-                        }
-                    } else {
-                        statement.executeUpdate(query);
-                        result_label.setAlignment(Pos.CENTER);
-                        result_label.setStyle("-fx-text-fill: #4bc63d");
-                        result_label.setText("Successfully inserted!");
-                        stuff_input.setText("");person_input.setText("");
-                        count_input.setText("");country_input.setText("");
-                    }
-                } else {
-                    statement.executeUpdate(query);
-                    result_label.setAlignment(Pos.CENTER);
-                    result_label.setStyle("-fx-text-fill: #4bc63d");
-                    result_label.setText("Successfully inserted!");
-                    stuff_input.setText("");person_input.setText("");
-                    count_input.setText("");country_input.setText("");
-                }
-            } catch (Exception e) {
+                count_int = Integer.parseInt(count);
+            } catch (Exception e){
                 result_label.setAlignment(Pos.CENTER);
                 result_label.setStyle("-fx-text-fill: #ff0004");
                 result_label.setText("Count must be a number!");
-                e.printStackTrace();
+                return;
+            }
+            String insert_query = "INSERT INTO customers (Name,Person,Count,Country) VALUES ('"+name+"','"+person+"','"+count_int+"','"+country+"')";
+            String select_query = "SELECT ID,Count FROM customers WHERE name like '"+name+"' and person like '"+person+"' and country like '"+country+"'";
+            ResultSet rs_sel = statement.executeQuery(select_query);
+            if(rs_sel.next()){
+                int newCount = rs_sel.getInt("Count")+count_int;
+                statement.executeUpdate("UPDATE customers SET Count = '"+newCount+"'" +
+                        " WHERE `customers`.`ID` = '"+rs_sel.getInt("ID")+"'");
+                result_label.setAlignment(Pos.CENTER);
+                result_label.setStyle("-fx-text-fill: #4bc63d");
+                result_label.setText("Successfully inserted!");
+                stuff_input.setText("");person_input.setText("");
+                count_input.setText("");country_input.setText("");
+                rs_sel.close();
+            } else {
+                statement.executeUpdate(insert_query);
+                result_label.setAlignment(Pos.CENTER);
+                result_label.setStyle("-fx-text-fill: #4bc63d");
+                result_label.setText("Successfully inserted!");
+                stuff_input.setText("");person_input.setText("");
+                count_input.setText("");country_input.setText("");
             }
         }
         initialize();
     }
 
-    public void carryStuff(){
-        int err = 0;
+    public void carryStuff(){}
+        /*int err = 0;
         String name = stuff_input.getText();
         String person = person_input.getText();
         String count = count_input.getText();
@@ -181,63 +156,62 @@ public class Controller {
                 Statement statement = connection.createStatement();
                 ResultSet rs1 = statement.executeQuery(query1);
                 if(rs1.next()){
-                    //result_label.setText("");
                     rs1.close();
                     ResultSet rs2 = statement.executeQuery(query2);
-                    rs2.next();//mám v pláne spraviť cyklus while(rs2.next()) ktorý vyrieši nižšie popísaný problém
-                    if(rs2.getString("Person").equals(person)){//rs2.getString(columnLabel:"Person") sa rovná hodnote Boris, nie Martin
-                        //result_label.setText("");
-                        rs2.close();
-                        ResultSet rs3 = statement.executeQuery(query3);
-                        rs3.next();
-                        if(rs3.getString("Country").equals(country)){
-                            //result_label.setText("");
-                            rs3.close();
-                            ResultSet rs4 = statement.executeQuery(query4);
-                            rs4.next();
-                            try{
-                                int count_int = Integer.parseInt(count);
-                                if(rs4.getInt("Count")==count_int){
-                                    String del_query = "DELETE FROM customers WHERE Name like '"+name+"'" +
-                                            " and Person like '"+person+"' and Country like '"+country+"'";
-                                    statement.executeUpdate(del_query);
-                                    result_label.setAlignment(Pos.CENTER);
-                                    result_label.setStyle("-fx-text-fill: #4bc63d");
-                                    result_label.setText("Successfully carried!");
-                                    stuff_input.setText("");person_input.setText("");
-                                    count_input.setText("");country_input.setText("");
-                                } else if(rs4.getInt("Count")<count_int){
+                    while(rs2.next()){
+                        if(rs2.getString("Person").equals(person)){//rs2.getString(columnLabel:"Person") sa rovná hodnote Boris, nie Martin
+                            rs2.close();
+                            ResultSet rs3 = statement.executeQuery(query3);
+                            while(rs3.next()){
+                                if(rs3.getString("Country").equals(country)){
+                                    rs3.close();
+                                    ResultSet rs4 = statement.executeQuery(query4);
+                                    rs4.next();
+                                    try{
+                                        int count_int = Integer.parseInt(count);
+                                        if(rs4.getInt("Count")==count_int){
+                                            String del_query = "DELETE FROM customers WHERE Name like '"+name+"'" +
+                                                    " and Person like '"+person+"' and Country like '"+country+"'";
+                                            statement.executeUpdate(del_query);
+                                            result_label.setAlignment(Pos.CENTER);
+                                            result_label.setStyle("-fx-text-fill: #4bc63d");
+                                            result_label.setText("Successfully carried!");
+                                            stuff_input.setText("");person_input.setText("");
+                                            count_input.setText("");country_input.setText("");
+                                        } else if(rs4.getInt("Count")<count_int){
+                                            result_label.setAlignment(Pos.CENTER);
+                                            result_label.setStyle("-fx-text-fill: #ff0004");
+                                            result_label.setText("Insufficient quantity of goods!");
+                                        } else if((rs4.getInt("Count")>count_int)){
+                                            int new_count = rs4.getInt("Count")-count_int;
+                                            String up_query = "UPDATE customers SET Count = '"+new_count+"'" +
+                                                    " WHERE customers.Name like '"+name+"' and customers.Person like" +
+                                                    " '"+person+"' and customers.Country like '"+country+"'";
+                                            statement.executeUpdate(up_query);
+                                            result_label.setAlignment(Pos.CENTER);
+                                            result_label.setStyle("-fx-text-fill: #4bc63d");
+                                            result_label.setText("Successfully carried!");
+                                            stuff_input.setText("");person_input.setText("");
+                                            count_input.setText("");country_input.setText("");
+
+                                        }
+                                    } catch (Exception e){
+                                        result_label.setAlignment(Pos.CENTER);
+                                        result_label.setStyle("-fx-text-fill: #ff0004");
+                                        result_label.setText("Count must be a number!");
+                                        e.printStackTrace();
+                                    }
+                                } else {
                                     result_label.setAlignment(Pos.CENTER);
                                     result_label.setStyle("-fx-text-fill: #ff0004");
-                                    result_label.setText("Insufficient quantity of goods!");
-                                } else if((rs4.getInt("Count")>count_int)){
-                                    int new_count = rs4.getInt("Count")-count_int;
-                                    String up_query = "UPDATE customers SET Count = '"+new_count+"'" +
-                                            " WHERE customers.Name like '"+name+"' and customers.Person like" +
-                                            " '"+person+"' and customers.Country like '"+country+"'";
-                                    statement.executeUpdate(up_query);
-                                    result_label.setAlignment(Pos.CENTER);
-                                    result_label.setStyle("-fx-text-fill: #4bc63d");
-                                    result_label.setText("Successfully carried!");
-                                    stuff_input.setText("");person_input.setText("");
-                                    count_input.setText("");country_input.setText("");
-
+                                    result_label.setText("Origin country is incorrect!");
                                 }
-                            } catch (Exception e){
-                                result_label.setAlignment(Pos.CENTER);
-                                result_label.setStyle("-fx-text-fill: #ff0004");
-                                result_label.setText("Count must be a number!");
-                                e.printStackTrace();
                             }
                         } else {
                             result_label.setAlignment(Pos.CENTER);
                             result_label.setStyle("-fx-text-fill: #ff0004");
-                            result_label.setText("Origin country is incorrect!");
+                            result_label.setText("No such person to this stuff!");
                         }
-                    } else {
-                        result_label.setAlignment(Pos.CENTER);
-                        result_label.setStyle("-fx-text-fill: #ff0004");
-                        result_label.setText("No such person to this stuff!");
                     }
                 } else {
                     result_label.setAlignment(Pos.CENTER);
@@ -249,5 +223,5 @@ public class Controller {
             }
         }
         initialize();
-    }
+    }*/
 }
