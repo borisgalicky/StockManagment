@@ -67,6 +67,11 @@ public class Controller {
         table.setItems(list);
     }
 
+    private void clearInputs(){
+        stuff_input.setText("");person_input.setText("");
+        count_input.setText("");country_input.setText("");
+    }
+
     public void insertStuff() throws Exception {
         int err = 0;
         DatabaseConnection dc = new DatabaseConnection();
@@ -82,8 +87,7 @@ public class Controller {
             if(item.equals("")){
                 err++;
             }
-        }
-        if(err>0){
+        } if(err>0){
             result_label.setAlignment(Pos.CENTER);
             result_label.setStyle("-fx-text-fill: #ff0004");
             result_label.setText("Fill all inputs!");
@@ -107,8 +111,7 @@ public class Controller {
                 result_label.setAlignment(Pos.CENTER);
                 result_label.setStyle("-fx-text-fill: #4bc63d");
                 result_label.setText("Successfully inserted!");
-                stuff_input.setText("");person_input.setText("");
-                count_input.setText("");country_input.setText("");
+                clearInputs();
                 stuff_input.requestFocus();
                 rs_sel.close();
             } else {
@@ -116,8 +119,7 @@ public class Controller {
                 result_label.setAlignment(Pos.CENTER);
                 result_label.setStyle("-fx-text-fill: #4bc63d");
                 result_label.setText("Successfully inserted!");
-                stuff_input.setText("");person_input.setText("");
-                count_input.setText("");country_input.setText("");
+                clearInputs();
                 stuff_input.requestFocus();
             }
         }
@@ -163,7 +165,7 @@ public class Controller {
                 if(count_int>count){
                     result_label.setAlignment(Pos.CENTER);
                     result_label.setStyle("-fx-text-fill: #ff0004");
-                    result_label.setText("Insufficient goods!");
+                    result_label.setText("Insufficiency of goods!");
                     count_input.requestFocus();
                     return;
                 } else if (count_int==count){
@@ -171,8 +173,7 @@ public class Controller {
                     result_label.setAlignment(Pos.CENTER);
                     result_label.setStyle("-fx-text-fill: #4bc63d");
                     result_label.setText("Successfully carried!");
-                    stuff_input.setText("");person_input.setText("");
-                    count_input.setText("");country_input.setText("");
+                    clearInputs();
                     stuff_input.requestFocus();
                 } else {
                     rs.close();
@@ -181,14 +182,13 @@ public class Controller {
                     result_label.setAlignment(Pos.CENTER);
                     result_label.setStyle("-fx-text-fill: #4bc63d");
                     result_label.setText("Successfully carried!");
-                    stuff_input.setText("");person_input.setText("");
-                    count_input.setText("");country_input.setText("");
+                    clearInputs();
                     stuff_input.requestFocus();
                 }
             } else {
                 result_label.setAlignment(Pos.CENTER);
                 result_label.setStyle("-fx-text-fill: #ff0004");
-                result_label.setText("Invalid parameters!");
+                result_label.setText("Stuff not found!");
             }
         }
         initialize();
